@@ -4,17 +4,27 @@ import { Platform, SafeAreaView, StyleSheet, Text, View } from "react-native";
 
 import color from "../assets/theme/color";
 import { screenWidth } from "../assets/usefull";
+import FlatButton from "../component/Buttons/FlatButton";
 import Input from "../component/Input";
+import { collection, addDoc, doc, Firestore, setDoc } from "firebase/firestore";
+import { auth, db } from "../firebase/firebase.config";
 
 export default function Horse({ navigation }) {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [error, setError] = useState();
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
+  const [name, setName] = useState();
 
-  const horsePress = () => {
-    navigation.navigate("Horse");
+  const handleCreate = async () => {
+    try {
+      if (name) {
+        const uid = auth.currentUser.uid;
+        await addDoc(collection(db, "User", uid, "Horse"), {
+          name,
+        });
+      }
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+    if (name) {
+    }
   };
 
   return (
@@ -24,11 +34,16 @@ export default function Horse({ navigation }) {
       </View>
 
       <Input
-        lable="Email"
-        onChangeText={setEmail}
-        value={email}
+        lable="Name"
+        onChangeText={setName}
+        value={name}
         icon="email-variant"
         iconPosition="left"
+      />
+      <FlatButton
+        text="Create"
+        color={color.primary}
+        onPress={() => handleCreate()}
       />
 
       <StatusBar style="auto" />

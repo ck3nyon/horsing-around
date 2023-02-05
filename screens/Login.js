@@ -10,7 +10,7 @@ import Input from "../component/Input";
 import { AuthContext } from "../context/AuthContext";
 import { auth } from "../firebase/firebase.config";
 
-export default function Login() {
+export default function Login({ navigation }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState();
@@ -48,6 +48,10 @@ export default function Login() {
           console.log(error.code);
         });
     }
+  };
+
+  const handleSignup = () => {
+    navigation.navigate("Signup");
   };
   // setError("Invalid email or password!");
 
@@ -87,7 +91,7 @@ export default function Login() {
       <FlatButtonSecondary
         text="Sign up"
         color={color.primary}
-        onPress={() => handleLogin()}
+        onPress={() => handleSignup()}
       />
       <StatusBar style="auto" />
     </SafeAreaView>

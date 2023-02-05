@@ -3,7 +3,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import Home from "./screens/Home";
+import Horse from "./screens/Horses";
 import Login from "./screens/Login";
+import Signup from "./screens/Signup";
 
 const Stack = createStackNavigator();
 const AuthStack = createStackNavigator();
@@ -17,6 +19,11 @@ export function Auth() {
         component={Login}
         options={{ headerShown: false }}
       />
+      <AuthStack.Screen
+        name="Signup"
+        component={Signup}
+        options={{ headerShown: false }}
+      />
     </AuthStack.Navigator>
   );
 }
@@ -27,6 +34,11 @@ export function Main() {
       <AuthStack.Screen
         name="Home"
         component={Home}
+        options={{ headerShown: false }}
+      />
+      <AuthStack.Screen
+        name="Horse"
+        component={Horse}
         options={{ headerShown: false }}
       />
     </AuthStack.Navigator>

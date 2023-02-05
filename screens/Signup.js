@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { Platform, SafeAreaView, StyleSheet, Text, View } from "react-native";
 
@@ -6,16 +7,32 @@ import color from "../assets/theme/color";
 import FlatButton from "../component/Buttons/FlatButton";
 import FlatButtonSecondary from "../component/Buttons/FlatButtonSecondary";
 import Input from "../component/Input";
+import { auth } from "../firebase/firebase.config";
 
 export default function Signup() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [password2, setPassword2] = useState();
+
   const [error, setError] = useState();
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
 
-  const handleLogin = () => {
-    setError("Invalid email or password!");
+  const handleSignup = () => {
+    if (email && password && password2) {
+      if (password === password2) {
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredentials) => {})
+          .catch((error) => {
+            console.log(error.code);
+            if (error.code === "auth/invalid-email") {
+              setError("Invalid email or password!");
+            }
+          });
+      } else {
+        setError("Password's dont match!");
+      }
+    }
   };
 
   return (
@@ -27,7 +44,7 @@ export default function Signup() {
       </View>
 
       <Input
-        lable="Emailddd"
+        lable="Email"
         onChangeText={setEmail}
         value={email}
         icon="email-variant"
@@ -40,13 +57,12 @@ export default function Signup() {
         value={password}
         icon="lock-open"
         iconPosition="left"
-        error={error}
         secureTextEntry={true}
       />
       <Input
-        lable="Password"
-        onChangeText={setPassword}
-        value={password}
+        lable="Re-enter Password"
+        onChangeText={setPassword2}
+        value={password2}
         icon="lock-open"
         iconPosition="left"
         error={error}
@@ -56,7 +72,7 @@ export default function Signup() {
       <FlatButtonSecondary
         text="Sign up"
         color={color.primary}
-        onPress={() => handleLogin()}
+        onPress={() => handleSignup()}
       />
       <StatusBar style="auto" />
     </SafeAreaView>

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import styles from './styles';
-import { View, TextInput, Text } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import colors from '../../assets/theme/color';
+import React, { useState } from "react";
+import styles from "./styles";
+import { View, TextInput, Text } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import colors from "../../assets/theme/color";
 
 const Input = ({
   onChangeText,
@@ -23,8 +23,8 @@ const Input = ({
 
   const getFlexDirection = () => {
     if (icon && iconPosition) {
-      if (iconPosition === 'left') return 'row';
-      else return 'row-reverse';
+      if (iconPosition === "left") return "row";
+      else return "row-reverse";
     }
   };
 
@@ -38,12 +38,13 @@ const Input = ({
       <View
         style={[
           styles.wrapper,
-          { alignItems: icon ? 'center' : 'stretch' },
+          { alignItems: icon ? "center" : "stretch" },
           {
             borderColor: focused ? colors.primary : colors.gray,
             flexDirection: getFlexDirection(),
           },
-        ]}>
+        ]}
+      >
         <View>
           {icon && (
             <MaterialCommunityIcons
